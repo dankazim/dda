@@ -1,0 +1,130 @@
+"""BY Dan and Tarun"""
+import usocket
+from machine import Pin
+import network
+import esp
+import gc
+import machine
+
+esp.osdebug(None)
+gc.collect()
+ssid = 'Mynamenah' #Name of wifi or network
+password = 'mynamenahdan' #Access password
+
+station = network.WLAN(network.STA_IF)
+station.active(True)
+station.connect(ssid, password)
+while station.isconnected() == False:
+    pass
+
+print('Connection Successfull')
+print(station.ifconfig())
+led = Pin(2, Pin.OUT)
+
+PIN_R = 26
+PIN_G = 25
+PIN_B = 27
+
+class RGBLed:
+    def __init__(self, pin_r, pin_g, pin_b):
+        self.pin_r = machine.PWM(machine.Pin(pin_r))
+        self.pin_g = machine.PWM(machine.Pin(pin_g))
+        self.pin_b = machine.PWM(machine.Pin(pin_b))
+        self.set(0, 0, 0)
+
+    def set(self, r, g, b):
+        self.r = int(r)
+        self.g = int(g)
+        self.b = int(b)
+        self.duty()
+
+    def duty(self):
+        self.pin_r.duty(self.duty_translate(self.r))
+        self.pin_g.duty(self.duty_translate(self.g))
+        self.pin_b.duty(self.duty_translate(self.b))
+
+    def duty_translate(self, n):
+        """translate values from 0-255 to 0-1023"""
+        return int((float(n) / 255) * 1023)
+
+led = RGBLed(PIN_R, PIN_G, PIN_B)
+#        R    G   B
+led.set(255, 0, 255)
+
+
+def web_page():
+    
+
+      html = """<html>
+     <head>
+     <title>ESP Web Server</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="icon" href="data:,"> <style>html{font-family: Helvetica;
+    display:inline-block; margin: 0px auto; text-align: center;}
+     h1{color: #0F3376; padding: 2vh;}p{font-size: 1.5rem;}.button{display:
+    inline-block; background-color: #e7bd3b; border: none;
+     border-radius: 4px; color: white; padding: 16px 40px; text-decoration:
+    none; font-size: 30px; margin: 2px; cursor: pointer;}
+     .button2{background-color: #4286f4;}
+     .buttonred{background-color: #FF0000;}
+     .buttongreen{background-color: #008000;}
+     .buttonblue{background-color: #0000FF;}
+     </style>
+     </head>
+     
+     <body>
+     <h1>ESP Web Server</h1>
+
+     <p><a href="/?led=on"><button class="button">ON</button></a></p>
+     <p><a href="/?led=off"><button class="button button2"> OFF</button></a></p>
+     
+     <h1>Choose Color</h1>
+     <p><a href="/?led=red"><button class="button buttonred">RED</button></a></p>
+     <p><a href="/?led=green"><button class="button buttongreen">GREEN</button></a></p>
+     <p><a href="/?led=blue"><button class="button buttonblue">BLUE</button></a></p>
+     </body>
+    </html> """
+      return html
+
+s = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
+s.bind(('', 81)) # empty string = localhost IP.
+s.listen(5) # max. number of queued connections.
+
+while True:
+    conn, addr = s.accept()
+    print('Got a connection from {}'.format(str(addr)))
+    request = conn.recv(1024)#http request
+    request = str(request)#transform request to string
+    print('Content = {}'.format(request))
+    led_on = request.find('/?led=on')
+    led_off = request.find('/?led=off')
+    led_red = request.find('/?led=red')
+    led_green = request.find('/?led=green')
+    led_blue = request.find('/?led=blue')
+    
+    
+    
+    if led_on == 6:
+        print('LED ON')
+
+    elif led_off == 6:
+        print('LED OFF')
+        led.set(0, 0, 0)
+    elif led_red == 6:
+        print('LED RED')
+        led.set(255, 0, 0)
+       
+    elif led_green == 6:
+        print('LED GREEN')
+        led.set(0, 255, 0)
+    elif led_blue == 6:
+        print('LED BLUE')
+        led.set(0, 0, 255)
+   
+    
+    response = web_page()
+    conn.send('HTTP/1.1 200 OK\n')
+    conn.send('Content-Type: text/html\n')
+    conn.send('Connection: close\n\n')
+    conn.sendall(response)
+    conn.close()
