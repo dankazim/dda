@@ -1,34 +1,31 @@
 from datetime import datetime
 TimeToString = datetime.now().strftime("%d/%m/%Y %H:%M")
 
-
-notes = {"Mar 2 ": {"Date": "march 4", "Content": "Working on Note Keeper", "Labels": "Programming, testing, default"}}
-#notes_template = ["Date", "Title", "Descriptions", "Labels"]
-
-
+notes ={}
 def displayNotes():
-  for key in notes:
-    print(f'{key}: {notes[key]}')
-
-def updateNote():
-  addNote()
-  #notes[title] = {notes_template[0]: TimeToString, notes_template[2]: labels, notes_template[3]: labels}
-
-  
-def deleteNote(title):
+    if notes =={}:
+      print("----You dont have any notes----")
+    else:
+      for key in notes:
+        print(f'{key}: {notes[key]}')
+      
+def deleteNote():
+  title = str(input("Title of note to be deleted: "))
   notes.pop(title)
 
 def addNote():
   title = str(input("Title: "))
-  descriptions = str(input("Description: "))
   labels = str(input("Label: "))
+  descriptions = str(input("Description: "))
   notes[title]= {"Date": TimeToString, "Label": labels,"Descriptions": descriptions}
 
-  #notes[title] = {notes_template[0]: TimeToString, notes_template[2]: descriptions, notes_template[3]: labels}
-  return title, descriptions,labels
+def updateNote():
+ 
+  title = str(input("title of note you want to update: "))
+  labels = str(input("Label: "))
+  descriptions = str(input("Description: "))
+  notes[title]= {"Date": TimeToString, "Label": labels,"Descriptions": descriptions}
 
-
-  
 def processInput():
   if option ==1:
     addNote()
@@ -46,5 +43,4 @@ while True:
   print("\nWhat would you like to do?\n1: Create a new note.\n2: List all notes.\n3: Update a note.\n4: Remove a note")
   option = int(input("Your choice(1,2,3 or 4): "))
   processInput()
-
-
+  
