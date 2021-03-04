@@ -1,46 +1,70 @@
 from datetime import datetime
 TimeToString = datetime.now().strftime("%d/%m/%Y %H:%M")
-
 notes ={}
+def linebreak_b():
+  print("============================================")
+  
+def linebreak_t():
+  print("____________________________________________")
+  print("")
+
 def displayNotes():
     if notes =={}:
-      print("----You dont have any notes----")
+      print("---------Please create new notes--------")
     else:
       for key in notes:
         print(f'{key}: {notes[key]}')
       
 def deleteNote():
-  title = str(input("Title of note to be deleted: "))
-  notes.pop(title)
+  if notes !={}:
+    title = str(input("Title of notes to be deleted: "))
+    notes.pop(title)
+  else:
+    print("----You dont have any notes to be delete----")
 
-def addNote():
+def add_or_update():
   title = str(input("Title: "))
-  labels = str(input("Label: "))
-  descriptions = str(input("Description: "))
-  notes[title]= {"Date": TimeToString, "Label": labels,"Descriptions": descriptions}
-
-def updateNote():
- 
-  title = str(input("title of note you want to update: "))
   labels = str(input("Label: "))
   descriptions = str(input("Description: "))
   notes[title]= {"Date": TimeToString, "Label": labels,"Descriptions": descriptions}
 
 def processInput():
   if option ==1:
-    addNote()
-    print("-----a new note was created------")
+    linebreak_t()
+    add_or_update()
+    linebreak_b()
+    print("-----------A new note was created-----------")
+    linebreak_b()
+
   elif option ==2:
+    linebreak_t()
     displayNotes()
+   
   elif option ==3:
-    updateNote()
-    print("------a  note was updated------")
+    linebreak_t()
+    add_or_update()
+    linebreak_b()
+    print("------------A  note was updated-------------")
+    linebreak_b()
+
   elif option ==4:
+    linebreak_t()
     deleteNote()
-    print("------a  note was deleted-------")
+    linebreak_b()
     
+    print("-----------A  note was deleted--------------")
+    linebreak_b()
+  else:
+    linebreak_b()
+    print("<<<<<<<<<<<<< invalid input >>>>>>>>>>>>>>>>")
+
 while True:
-  print("\nWhat would you like to do?\n1: Create a new note.\n2: List all notes.\n3: Update a note.\n4: Remove a note")
-  option = int(input("Your choice(1,2,3 or 4): "))
-  processInput()
-  
+  try:
+    print("\nWhat would you like to do?\n1: Create a new note.\n2: List all notes.\n3: Update a note.\n4: Remove a note")
+    option = int(input("Your choice(1,2,3 or 4): "))
+    processInput()
+  except ValueError:
+    linebreak_b()
+    print("Please follow input instruction, number only")
+    linebreak_b()
+    
