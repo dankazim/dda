@@ -1,6 +1,8 @@
 from datetime import datetime
 TimeToString = datetime.now().strftime("%d/%m/%Y %H:%M")
-notes ={}
+
+notes ={'Date': '04/03/2021 14:55', 'Label': 'test', 'Descriptions': 'testing my small notebook'}
+
 def linebreak_b():
   print("============================================")
   
@@ -39,6 +41,7 @@ def processInput():
   elif option ==2:
     linebreak_t()
     displayNotes()
+    linebreak_b
    
   elif option ==3:
     linebreak_t()
