@@ -54,7 +54,6 @@ def processInput():
     linebreak_t()
     deleteNote()
     linebreak_b()
-    
     print("-----------A  note was deleted--------------")
     linebreak_b()
   else:
