@@ -3,18 +3,12 @@ TimeToString = datetime.now().strftime("%d/%m/%Y %H:%M")
 
 notes ={'dan' :{'Date': '04/03/2021 14:55', 'Label': 'test', 'Descriptions': 'playing'}, 'Tarun' :{'Date': '04/03/2021 14:55', 'Label': 'hahahah', 'Descriptions': 'dancing'}}
 
-
-
-
-
-
 def linebreak_b():
   print("============================================")
   
 def linebreak_t():
   print("____________________________________________")
   
-
 def displayNotes():
   linebreak_t()
   print("-----------------List of Notes--------------")
@@ -33,7 +27,6 @@ def displayNotes():
         
   print("-------------------------------------------")       
       
-
 """def update_title(note_to_update):
   update = str(input(f"New title for {note_to_update}: "))
   notes[note_to_update] = update
@@ -47,8 +40,6 @@ def update_description(note_to_update):
   update = str(input(f"New Descriptions for {note_to_update} "))
   notes[note_to_update]['Descriptions'] = update
 
-
-
 def update():
   displayNotes()
   linebreak_t()
@@ -61,8 +52,6 @@ def update():
     print(f"The note, {note_to_update}, you are trying to update does not exist")
   return note_to_update
   
-
-
 
 def update_menu(updateConfirmation, note_to_update):
   menu_options ={
