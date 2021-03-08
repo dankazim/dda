@@ -1,7 +1,9 @@
+"""BY Group 4: Dan M. Kazimoto, Hnin Wint Thu Aung, Nusara Boonma, Vichhagar Nhin """
+
 from datetime import datetime
 TimeToString = datetime.now().strftime("%d/%m/%Y %H:%M")
 
-notes ={'dan' :{'Date': '04/03/2021 14:55', 'Label': 'test', 'Descriptions': 'playing'}, 'Tarun' :{'Date': '04/03/2021 14:55', 'Label': 'hahahah', 'Descriptions': 'dancing'}}
+notes ={'John' :{'Date': '04/03/2021 14:55', 'Label': 'test', 'Descriptions': 'playing'}, 'Luke' :{'Date': '04/03/2021 14:55', 'Label': 'hahahah', 'Descriptions': 'dancing'}}
 
 def linebreak_b():
   print("============================================")
@@ -26,19 +28,20 @@ def displayNotes():
         print(f'  {subkey}: {notes[key][subkey]}')
         
   print("-------------------------------------------")       
-      
-"""def update_title(note_to_update):
-  update = str(input(f"New title for {note_to_update}: "))
-  notes[note_to_update] = update
-  print(f"your note,{note_to_update}, has been renamed to {update}")"""
 
 def update_label(note_to_update):
-  update = str(input(f"New Label for {note_to_update} "))
+  update = str(input(f"New Label for {note_to_update}:  "))
   notes[note_to_update]['Label'] = update
+  linebreak_b()
+  print(f"Label for {note_to_update} has been updated ")
+  linebreak_b()
 
 def update_description(note_to_update):
   update = str(input(f"New Descriptions for {note_to_update} "))
   notes[note_to_update]['Descriptions'] = update
+  linebreak_b()
+  print(f"Descriptions for {note_to_update} has been updated ")
+  linebreak_b()
 
 def update():
   displayNotes()
@@ -49,10 +52,11 @@ def update():
     updateConfirmation = int(input("Your choice (1 or 2): "))
     update_menu(updateConfirmation, note_to_update)
   else:
+    linebreak_b()
     print(f"The note, {note_to_update}, you are trying to update does not exist")
+    linebreak_b()
   return note_to_update
   
-
 def update_menu(updateConfirmation, note_to_update):
   menu_options ={
     1:update_label,
@@ -73,13 +77,17 @@ def delete():
       print(f"-----the note,{note_to_delete}, has been deleted----")
       linebreak_b()
     else:
+      linebreak_b()
       print("----You dont have any notes to be delete----")
+      linebreak_b()
   except :
     linebreak_b()
     print(f"-------{note_to_delete} does not exist in notes------")
     linebreak_b()
 
-def add_or_update():
+def add():
+  linebreak_t()
+  print("--------------New Note Creation----------")
   title = str(input("Title: "))
   labels = str(input("Label: "))
   descriptions = str(input("Description: "))
@@ -91,7 +99,7 @@ def add_or_update():
 
 def menu(option):
   menu_options ={
-    1:add_or_update,
+    1:add,
     2:displayNotes,
     3:update,
     4:delete
@@ -100,8 +108,13 @@ def menu(option):
 
 while True:
     print("\nWhat would you like to do?\n1: Create a new note.\n2: List all notes.\n3: Update a note.\n4: Remove a note")
-    option = int(input("Your choice(1,2,3 or 4): "))
-    menu(option)
+    try:
+      option = int(input("Your choice(1,2,3 or 4): "))
+      menu(option)
+    except ValueError:
+      linebreak_b()
+      print("-----invalid inputs, please follow instruction----")
+      linebreak_b()
 
 
 
